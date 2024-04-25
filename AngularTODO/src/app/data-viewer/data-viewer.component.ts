@@ -9,7 +9,27 @@ interface Item {
 
 @Component({
   selector: 'app-data-viewer',
-  template: `<button (click)="downloadJson()">Télécharger JSON</button>`
+  template: `
+    <div *ngIf="data">
+      <pre>{{ data | json }}</pre>
+      <button (click)="downloadJson()">Télécharger JSON</button>
+
+      <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">Clé</th>
+            <th scope="col">Valeur</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let key of objectKeys(data)">
+            <td>{{ key }}</td>
+            <td>{{ data[key] }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  `
 })
 export class DataViewerComponent implements OnInit {
 
@@ -17,15 +37,15 @@ export class DataViewerComponent implements OnInit {
 
   constructor(private dataService: DataService) { }
 
-ngOnInit() {
-  this.dataService.getData().subscribe((response: any) => {
-    this.data = response;
-  });
-}
+  ngOnInit() {
+    this.dataService.getData().subscribe((response: any) => {
+      this.data = response;
+    });
+  }
 
-objectKeys(item: Item) {
-  return Object.keys(item);
-}
+  objectKeys(item: any) {
+    return Object.keys(item);
+  }
 
   downloadJson() {
     const fileName = "data.json";
