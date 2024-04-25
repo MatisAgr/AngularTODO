@@ -1,0 +1,22 @@
+<div *ngIf="data">
+    <pre>{{ data | json }}</pre>
+    <script>
+    console.log("data", data);
+    </script>
+    <button (click)="downloadJson()">Télécharger JSON</button>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">Clé</th>
+                <th scope="col">Valeur</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let key of objectKeys(data)">
+                <td>{{ key }}</td>
+                <td>{{ data[key] }}</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
